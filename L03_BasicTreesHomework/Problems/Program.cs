@@ -6,7 +6,7 @@
 
     public class Program
     {
-        public static Dictionary<int, Tree<int>> nodeByValue = new Dictionary<int, Tree<int>>();
+        private static Dictionary<int, Tree<int>> nodeByValue = new Dictionary<int, Tree<int>>();
 
         public static void Main()
         {
@@ -14,14 +14,177 @@
 
             var root = GetRootNode();
 
-            PrintTree(root);
+            //Console.WriteLine($"Root: {root}");
 
-            FindLeafNodesInIncreasingOrder();
+            //PrintTree(root);
 
+            //FindLeafNodesInIncreasingOrder();
+
+            //FindMiddleNodesInIncreasingOrder();
+
+            //FindDeepestNode();
+
+            //FindLongestPath();
+
+            //P07_AllPathsWithGivenSum
+            //int sum = int.Parse(Console.ReadLine());
+            //Console.WriteLine($"Paths of sum {sum}:");
+            //DFS(root, sum);
+
+            //P08_AllSubtreesWithGivenSum
+            int sum = int.Parse(Console.ReadLine());
+            Console.WriteLine($"Subtrees of sum {sum}:");
+            SubtreeDFS(root, sum);
         }
 
+        // P08_AllSubtreesWithGivenSum
+        private static int SubtreeDFS(Tree<int> node, int sum)
+        {
+            int currentSum = node.Value;
+            foreach (var child in node.Children)
+            {
+                currentSum += SubtreeDFS(child, sum);
+            }
+
+            if (sum == currentSum)
+            {
+                List<int> subtree = new List<int>();
+                GetSubtree(node, subtree);
+                Console.WriteLine(string.Join(" ", subtree));
+            }
+
+            return currentSum;
+        }
+
+        private static void GetSubtree(Tree<int> node, List<int> result)
+        {
+            result.Add(node.Value);
+            foreach (var child in node.Children)
+            {
+                GetSubtree(child, result);
+            }
+        }
+
+        // P07_AllPathsWithGivenSum
+        private static void DFS(Tree<int> node, int targetSum, int sum = 0)
+        {
+            sum += node.Value;
+            if (sum == targetSum)
+            {
+                PrintPath(node);
+            }
+
+            foreach (var child in node.Children)
+            {
+                DFS(child, targetSum, sum);
+            }
+        }
+
+        private static void PrintPath(Tree<int> node)
+        {
+            Tree<int> start = node;
+            var path = new Stack<int>();
+            path.Push(start.Value);
+
+            while (start.Parent != null)
+            {
+                start = start.Parent;
+                path.Push(start.Value);
+            }
+
+            Console.WriteLine(string.Join(" ", path));
+        }
+
+        // P06_LongestPath
+        private static void FindLongestPath()
+        {
+            var leafNodes = nodeByValue
+                .Values
+                .Where(x => x.Children.Count == 0)
+                .Select(x => x.Value)
+                .ToList();
+
+            int maxDepth = 0;
+            int nodeValue = GetRootNode().Value;
+
+            foreach (var leaf in leafNodes)
+            {
+                var currentNode = GetTreeNodeByValue(leaf);
+                int currentDepth = 1;
+
+                while (currentNode.Parent != null)
+                {
+                    currentDepth++;
+                    currentNode = currentNode.Parent;
+                }
+
+                if (currentDepth > maxDepth)
+                {
+                    maxDepth = currentDepth;
+                    nodeValue = leaf;
+                }
+            }
+
+            var current = GetTreeNodeByValue(nodeValue);
+            var path = new Stack<int>();
+
+            while (current != null)
+            {
+                path.Push(current.Value);
+                current = current.Parent;
+            }
+
+            Console.WriteLine($"Longest path: {string.Join(" ", path)}");
+        }
+
+        // P05_DeepestNode
+        private static void FindDeepestNode()
+        {
+            var leafNodes = nodeByValue
+                .Values
+                .Where(x => x.Children.Count == 0)
+                .Select(x => x.Value)
+                .OrderBy(x => x);
+
+            int maxDepth = 0;
+            int nodeValue = GetRootNode().Value;
+
+            foreach (var leaf in leafNodes)
+            {
+                var currentNode = GetTreeNodeByValue(leaf);
+                int currentDepth = 1;
+
+                while (currentNode.Parent != null)
+                {
+                    currentDepth++;
+                    currentNode = currentNode.Parent;
+                }
+
+                if (currentDepth > maxDepth)
+                {
+                    maxDepth = currentDepth;
+                    nodeValue = leaf;
+                }
+            }
+
+            Console.WriteLine($"Deepest node: {nodeValue}");
+        }
+
+        // P04_MiddleNodes
+        private static void FindMiddleNodesInIncreasingOrder()
+        {
+            var nodes = nodeByValue
+                .Values
+                .Where(x => x.Children.Count != 0 && x.Parent != null)
+                .Select(x => x.Value)
+                .OrderBy(x => x);
+
+            Console.WriteLine($"Middle nodes: {string.Join(" ", nodes)}");
+        }
+
+
         // P03_LeafNodes
-        public static void FindLeafNodesInIncreasingOrder()
+        private static void FindLeafNodesInIncreasingOrder()
         {
             var nodes = nodeByValue
                 .Values
@@ -33,7 +196,7 @@
         }
 
         // P02_PrintTree
-        public static void PrintTree(Tree<int> node, int indent = 0)
+        private static void PrintTree(Tree<int> node, int indent = 0)
         {
             Console.WriteLine($"{new string(' ', indent)}{node.Value}");
             foreach (var child in node.Children)
@@ -43,7 +206,7 @@
         }
 
         // P01_RootNode
-        public static Tree<int> GetRootNode()
+        private static Tree<int> GetRootNode()
         {
             var root = nodeByValue
                 .FirstOrDefault(x => x.Value.Parent == null)
@@ -52,7 +215,7 @@
             return root;
         }
 
-        public static Tree<int> GetTreeNodeByValue(int value)
+        private static Tree<int> GetTreeNodeByValue(int value)
         {
             if (!nodeByValue.ContainsKey(value))
             {
@@ -62,7 +225,7 @@
             return nodeByValue[value];
         }
 
-        public static void AddEdge(int parent, int child)
+        private static void AddEdge(int parent, int child)
         {
             Tree<int> parentNode = GetTreeNodeByValue(parent);
             Tree<int> childNode = GetTreeNodeByValue(child);
@@ -70,7 +233,7 @@
             childNode.Parent = parentNode;
         }
 
-        public static void ReadTree()
+        private static void ReadTree()
         {
             int nodeCount = int.Parse(Console.ReadLine());
             for (int i = 0; i < nodeCount - 1; i++)

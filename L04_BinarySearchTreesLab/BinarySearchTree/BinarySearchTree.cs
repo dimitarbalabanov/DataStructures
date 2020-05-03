@@ -174,7 +174,34 @@
 
         public IEnumerable<T> Range(T startRange, T endRange)
         {
-            throw new NotImplementedException();
+            List<T> result = new List<T>();
+
+            this.Range(this.root, result, startRange, endRange);
+
+            return result;
+        }
+        private void Range(Node node, List<T> result, T start, T end)
+        {
+            if (node == null)
+            {
+                return;
+            }
+
+            int compareLow = node.Value.CompareTo(start);
+            int compareHigh = node.Value.CompareTo(end);
+
+            if (compareLow > 0)
+            {
+                this.Range(node.Left, result, start, end);
+            }
+            if (compareLow >= 0 && compareHigh <= 0)
+            {
+                result.Add(node.Value);
+            }
+            if (compareHigh < 0)
+            {
+                this.Range(node.Right, result, start, end);
+            }
         }
 
         public void EachInOrder(Action<T> action)

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedBlackTree", "RedBlackTree\RedBlackTree.csproj", "{C02B70FA-29CF-4CBA-A0B2-CE70F0AF3879}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedBlackTree.Tests", "RedBlackTree.Tests\RedBlackTree.Tests.csproj", "{3F9213F5-1286-423E-8A0D-FEE566720C72}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C02B70FA-29CF-4CBA-A0B2-CE70F0AF3879}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C02B70FA-29CF-4CBA-A0B2-CE70F0AF3879}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C02B70FA-29CF-4CBA-A0B2-CE70F0AF3879}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C02B70FA-29CF-4CBA-A0B2-CE70F0AF3879}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F9213F5-1286-423E-8A0D-FEE566720C72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F9213F5-1286-423E-8A0D-FEE566720C72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F9213F5-1286-423E-8A0D-FEE566720C72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F9213F5-1286-423E-8A0D-FEE566720C72}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6BE3B541-C97F-4FC6-B61E-BF32DC442C71}
+	EndGlobalSection
+EndGlobal
